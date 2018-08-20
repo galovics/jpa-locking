@@ -3,6 +3,7 @@ A very simple Spring Boot application with a couple of tests to show the Lost Up
 and the possibilities to handle it with Optimistic Locking in JPA and Hibernate.
 
 The application was written as a showcase for the following article:
+https://blog.arnoldgalovics.com/optimistic-locking-in-jpa-hibernate/
 
 
 
