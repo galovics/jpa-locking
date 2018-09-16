@@ -20,4 +20,12 @@ public class TestHelper {
         });
         entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY TRUE").executeUpdate();
     }
+
+    @Transactional
+    public void resetPostgres() {
+        entityManager.getMetamodel().getEntities().forEach(type -> {
+            String entityName = type.getName();
+            entityManager.createQuery(String.format("DELETE FROM %s", entityName)).executeUpdate();
+        });
+    }
 }
