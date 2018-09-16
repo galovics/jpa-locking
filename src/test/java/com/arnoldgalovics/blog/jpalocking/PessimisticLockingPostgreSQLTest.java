@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureEmbeddedDatabase
-public class PessimisticLockingPostgresTest {
+public class PessimisticLockingPostgreSQLTest {
     @Autowired
     private TransactionalRunner txRunner;
 
@@ -59,13 +59,15 @@ public class PessimisticLockingPostgresTest {
         });
         // when
         Product result = txRunner.doInTransaction(em1 -> {
+            Product product1 = em1.find(Product.class, p.getId(), LockModeType.PESSIMISTIC_READ);
             txRunner.doInTransaction(em2 -> {
+                Product product2 = em2.find(Product.class, p.getId(), LockModeType.PESSIMISTIC_READ);
                 txRunner.doInTransaction(em3 -> {
                     return em3.find(Product.class, p.getId(), LockModeType.PESSIMISTIC_READ);
                 });
-                return em2.find(Product.class, p.getId(), LockModeType.PESSIMISTIC_READ);
+                return product2;
             });
-            return em1.find(Product.class, p.getId(), LockModeType.PESSIMISTIC_READ);
+            return product1;
 
         });
         // then

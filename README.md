@@ -18,3 +18,17 @@ The test contains 4 different use-cases
 - Optimistic locking with versioning when non-overlapping changes were made to the entity
 - Versionless optimistic locking
 - Versionless optimistic locking when non-overlapping changes were made to the entity
+
+## PessimisticLockingH2Test
+The test shows how an exclusive lock can be acquired with H2 and also demonstrates that H2
+doesn't support shared locks thus Hibernate is falling back to requesting an exclusive lock
+even in case of an exclusive request.
+
+## PessimisticLockingPostgreSQLTest
+The test shows off the following use-cases with an embedded PostgreSQL database
+
+- Shared locks are supported via the `FOR SHARE` clause
+- Multiple readers can acquire shared lock to the same row
+- One shared lock is already applied and then an exclusive lock tries to be acquired to the same row
+- Locking a row after fetching the entity
+- Locking the result of a query
